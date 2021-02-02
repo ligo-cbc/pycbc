@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Using the single template model &mdash; PyCBC 0.0a8068 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/terminal.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../_static/typed.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Using the relative model" href="relative.html" />
+    <link rel="prev" title="GW150914 example" href="gw150914.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyCBC
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../credit.html">Use of PyCBC in Scientific Publications</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../docker.html">Running PyCBC under Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installing PyCBC</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../inference.html">PyCBC inference documentation (<code class="docutils literal notranslate"><span class="pre">pycbc.inference</span></code>)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../inference.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inference.html#sampling-the-parameter-space-pycbc-inference">Sampling the parameter space (<code class="docutils literal notranslate"><span class="pre">pycbc_inference</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../inference.html#examples">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sampler_platter.html">Trying out different samplers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="analytic.html">Running on an analytic distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bbh.html">Simulated BBH example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gw150914.html">GW150914 example</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Using the single template model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-configuration-examples">Advanced Configuration Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relative.html">Using the relative model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../inference.html#visualizing-the-posteriors">Visualizing the Posteriors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inference.html#workflows">Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inference.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/pycbc_make_psd_estimation_workflow.html"><code class="docutils literal notranslate"><span class="pre">pycbc_make_psd_estimation_workflow</span></code>: A workflow generator for noise estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/pycbc_make_coinc_search_workflow.html"><code class="docutils literal notranslate"><span class="pre">pycbc_make_coinc_search_workflow</span></code>: A workflow to search for gravitational waves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/pygrb.html"><code class="docutils literal notranslate"><span class="pre">pycbc_make_offline_grb_workflow</span></code>: A GRB triggered CBC analysis workflow generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tmpltbank.html">PyCBC template bank generation documentation (<code class="docutils literal notranslate"><span class="pre">pycbc.tmpltbank</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hwinj.html">Hardware injection waveform generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../banksim.html">Calculating the Effectualness (Fitting Factor) of Template Banks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faithsim.html">Dag Generator for Doing Faithfulness Comparisons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upload_to_gracedb.html">Uploading triggers to gracedb</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../waveform_plugin.html">Making new waveform approximants available to PyCBC</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../catalog.html">Catalog of Observed Gravitational-wave Mergers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dataquality.html">Query times of valid data, hardware injections, and more.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../frame.html">Reading Gravitational-wave Frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gw150914.html">Signal Processing with GW150914</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../detector.html">Gravitational-wave Detectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../psd.html">Handling PSDs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../noise.html">Generating Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../waveform.html">Waveforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filter.html">Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions.html">Using PyCBC Distributions from PyCBC Inference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../building_bundled_executables.html">Building Bundled Executables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Documenting PyCBC code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Creating Releases of PyCBC</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../formats/hdf_format.html">HDF files within the PyCBC workflow</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow.html">Workflow: the inspiral analysis workflow generator (<code class="docutils literal notranslate"><span class="pre">pycbc.workflow</span></code>)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pycbc</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyCBC</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../inference.html">PyCBC inference documentation (<code class="docutils literal notranslate"><span class="pre">pycbc.inference</span></code>)</a> &raquo;</li>
+        
+      <li>Using the single template model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/inference/examples/single.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-the-single-template-model">
+<h1>Using the single template model<a class="headerlink" href="#using-the-single-template-model" title="Permalink to this headline">¶</a></h1>
+<p>The single template model is useful for when you know all the intrinsic parameters
+of your signal (say the masses, spins, etc of a merger). In this case, we don’t
+need to recalculate the waveform model to sample different possible extrinsic
+parameters (i.e. distance, sky location, inclination). This can greatly
+speed up the calculation of the likelihood. To use this model
+you provide the intrinsic parameters as fixed arguments as in the configuration
+file below.</p>
+<p>This example demonstrates using the <code class="docutils literal notranslate"><span class="pre">single_template</span></code> model with the
+<code class="docutils literal notranslate"><span class="pre">emcee_pt</span></code> sampler. First, we create the following configuration file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[model]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">single_template</span>
+
+<span class="c1">#; This model precalculates the SNR time series at a fixed rate.</span>
+<span class="c1">#; If you need a higher time resolution, this may be increased </span>
+<span class="na">sample_rate</span> <span class="o">=</span> <span class="s">32768</span>
+<span class="na">low-frequency-cutoff</span> <span class="o">=</span> <span class="s">30.0</span>
+
+<span class="k">[data]</span>
+<span class="na">instruments</span> <span class="o">=</span> <span class="s">H1 L1 V1</span>
+<span class="na">analysis-start-time</span> <span class="o">=</span> <span class="s">1187008482</span>
+<span class="na">analysis-end-time</span> <span class="o">=</span> <span class="s">1187008892</span>
+<span class="na">psd-estimation</span> <span class="o">=</span> <span class="s">median</span>
+<span class="na">psd-segment-length</span> <span class="o">=</span> <span class="s">16</span>
+<span class="na">psd-segment-stride</span> <span class="o">=</span> <span class="s">8</span>
+<span class="na">psd-inverse-length</span> <span class="o">=</span> <span class="s">16</span>
+<span class="na">pad-data</span> <span class="o">=</span> <span class="s">8</span>
+<span class="na">channel-name</span> <span class="o">=</span> <span class="s">H1:LOSC-STRAIN L1:LOSC-STRAIN V1:LOSC-STRAIN</span>
+<span class="na">frame-files</span> <span class="o">=</span> <span class="s">H1:H-H1_LOSC_CLN_4_V1-1187007040-2048.gwf L1:L-L1_LOSC_CLN_4_V1-1187007040-2048.gwf V1:V-V1_LOSC_CLN_4_V1-1187007040-2048.gwf</span>
+<span class="na">strain-high-pass</span> <span class="o">=</span> <span class="s">15</span>
+<span class="na">sample-rate</span> <span class="o">=</span> <span class="s">2048</span>
+
+<span class="k">[sampler]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">dynesty</span>
+<span class="na">nlive</span> <span class="o">=</span> <span class="s">500</span>
+<span class="na">walks</span> <span class="o">=</span> <span class="s">100</span>
+<span class="na">maxmcmc</span> <span class="o">=</span> <span class="s">500</span>
+<span class="na">nact</span> <span class="o">=</span> <span class="s">10</span>
+<span class="na">sample</span> <span class="o">=</span> <span class="s">rwalk2</span>
+
+<span class="k">[sampler-burn_in]</span>
+<span class="na">burn-in-test</span> <span class="o">=</span> <span class="s">min_iterations</span>
+<span class="na">min-iterations</span> <span class="o">=</span> <span class="s">100</span>
+
+<span class="k">[variable_params]</span>
+<span class="c1">; waveform parameters that will vary in MCMC</span>
+<span class="na">tc</span> <span class="o">=</span>
+<span class="na">distance</span> <span class="o">=</span>
+<span class="na">inclination</span> <span class="o">=</span>
+
+<span class="k">[static_params]</span>
+<span class="c1">; waveform parameters that will not change in MCMC</span>
+<span class="na">approximant</span> <span class="o">=</span> <span class="s">TaylorF2</span>
+<span class="na">f_lower</span> <span class="o">=</span> <span class="s">30</span>
+<span class="na">mass1</span> <span class="o">=</span> <span class="s">1.3757</span>
+<span class="na">mass2</span> <span class="o">=</span> <span class="s">1.3757</span>
+
+<span class="c1">#; we&#39;ll choose not to sample over these, but you could</span>
+<span class="na">polarization</span> <span class="o">=</span> <span class="s">0 </span>
+<span class="na">ra</span> <span class="o">=</span> <span class="s">3.44615914</span>
+<span class="na">dec</span> <span class="o">=</span> <span class="s">-0.40808407</span>
+
+<span class="c1">#; You could also set additional parameters if your waveform model supports / requires it.</span>
+<span class="c1">; spin1z = 0</span>
+
+<span class="k">[prior-tc]</span>
+<span class="c1">; coalescence time prior</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">uniform</span>
+<span class="na">min-tc</span> <span class="o">=</span> <span class="s">1187008882.4</span>
+<span class="na">max-tc</span> <span class="o">=</span> <span class="s">1187008882.5</span>
+
+<span class="k">[prior-distance]</span>
+<span class="c1">#; following gives a uniform in volume</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">uniform_radius</span>
+<span class="na">min-distance</span> <span class="o">=</span> <span class="s">10</span>
+<span class="na">max-distance</span> <span class="o">=</span> <span class="s">60</span>
+
+<span class="k">[prior-inclination]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">sin_angle</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/7e72d7fbb3a44c0a0ee0ca04753ef47c/single.ini"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a></p>
+<p>For this example, we’ll need to download gravitational-wave data for GW170817:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> ifo <span class="k">in</span> H-H1 L-L1 V-V1
+<span class="k">do</span>
+    <span class="nv">file</span><span class="o">=</span><span class="si">${</span><span class="nv">ifo</span><span class="si">}</span>_LOSC_CLN_4_V1-1187007040-2048.gwf
+    <span class="nb">test</span> -f <span class="si">${</span><span class="nv">file</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="k">continue</span>
+    curl -O --silent https://dcc.ligo.org/public/0146/P1700349/001/<span class="si">${</span><span class="nv">file</span><span class="si">}</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>By setting the model name to <code class="docutils literal notranslate"><span class="pre">single_template</span></code> we are using
+<a class="reference internal" href="../../pycbc.inference.models.html#pycbc.inference.models.single_template.SingleTemplate" title="pycbc.inference.models.single_template.SingleTemplate"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleTemplate</span></code></a>.</p>
+<p>Now run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycbc_inference <span class="se">\</span>
+--config-file <span class="sb">`</span>dirname <span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="sb">`</span>/single.ini <span class="se">\</span>
+--nprocesses<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+--output-file single.hdf <span class="se">\</span>
+--seed <span class="m">0</span> <span class="se">\</span>
+--force <span class="se">\</span>
+--verbose
+</pre></div>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/1260236206420d60c864c3f2ff5faaa9/run.sh"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a></p>
+<p>This will run the <code class="docutils literal notranslate"><span class="pre">emcee_pt</span></code> sampler. When it is done, you will have a file called
+<code class="docutils literal notranslate"><span class="pre">single.hdf</span></code> which contains the results. It should take about a minute or two to
+run.</p>
+<p>To plot the posterior distribution after the last iteration, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycbc_inference_plot_posterior <span class="se">\</span>
+--input-file single.hdf <span class="se">\</span>
+--output-file single.png <span class="se">\</span>
+--z-arg snr
+</pre></div>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/9dbf6c0b9aa64058320d03cd57c93f71/plot.sh"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a></p>
+<p>This will create the following plot:</p>
+<a class="reference internal image-reference" href="../../_images/single.png"><img alt="../../_images/single.png" class="align-center" src="../../_images/single.png" style="width: 603.9px; height: 384.0px;" /></a>
+<p>The scatter points show each walker’s position after the last iteration. The
+points are colored by the log likelihood at that point, with the 50th and 90th
+percentile contours drawn.</p>
+</div>
+<div class="section" id="advanced-configuration-examples">
+<h1>Advanced Configuration Examples<a class="headerlink" href="#advanced-configuration-examples" title="Permalink to this headline">¶</a></h1>
+<p>The single template model also supports marginalization over the polarization
+angle by numerical sampling. The following example features two adanced options.
+This marginalization and also arbitrary sampling coordinates with nested samplers
+using the <code class="docutils literal notranslate"><span class="pre">fixed_samples</span></code> distribution. Here we sample in the time delay
+space rather than sky location directly.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[model]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">single_template</span>
+
+<span class="c1">#; This model precalculates the SNR time series at a fixed rate.</span>
+<span class="c1">#; If you need a higher time resolution, this may be increased</span>
+<span class="na">sample_rate</span> <span class="o">=</span> <span class="s">32768</span>
+<span class="na">low-frequency-cutoff</span> <span class="o">=</span> <span class="s">30.0</span>
+<span class="na">polarization_samples</span> <span class="o">=</span> <span class="s">100</span>
+
+<span class="k">[data]</span>
+<span class="na">instruments</span> <span class="o">=</span> <span class="s">H1 L1 V1</span>
+<span class="na">analysis-start-time</span> <span class="o">=</span> <span class="s">1187008482</span>
+<span class="na">analysis-end-time</span> <span class="o">=</span> <span class="s">1187008892</span>
+<span class="na">psd-estimation</span> <span class="o">=</span> <span class="s">median</span>
+<span class="na">psd-segment-length</span> <span class="o">=</span> <span class="s">16</span>
+<span class="na">psd-segment-stride</span> <span class="o">=</span> <span class="s">8</span>
+<span class="na">psd-inverse-length</span> <span class="o">=</span> <span class="s">16</span>
+<span class="na">pad-data</span> <span class="o">=</span> <span class="s">8</span>
+<span class="na">channel-name</span> <span class="o">=</span> <span class="s">H1:LOSC-STRAIN L1:LOSC-STRAIN V1:LOSC-STRAIN</span>
+<span class="na">frame-files</span> <span class="o">=</span> <span class="s">H1:H-H1_LOSC_CLN_4_V1-1187007040-2048.gwf L1:L-L1_LOSC_CLN_4_V1-1187007040-2048.gwf V1:V-V1_LOSC_CLN_4_V1-1187007040-2048.gwf</span>
+<span class="na">strain-high-pass</span> <span class="o">=</span> <span class="s">15</span>
+<span class="na">sample-rate</span> <span class="o">=</span> <span class="s">2048</span>
+
+<span class="k">[sampler]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">dynesty</span>
+<span class="na">nlive</span> <span class="o">=</span> <span class="s">100</span>
+
+<span class="k">[sampler-burn_in]</span>
+<span class="na">burn-in-test</span> <span class="o">=</span> <span class="s">min_iterations</span>
+<span class="na">min-iterations</span> <span class="o">=</span> <span class="s">100</span>
+
+<span class="k">[variable_params]</span>
+<span class="c1">; waveform parameters that will vary in MCMC</span>
+<span class="na">tc</span> <span class="o">=</span>
+<span class="na">distance</span> <span class="o">=</span>
+<span class="na">inclination</span> <span class="o">=</span>
+<span class="na">dh</span> <span class="o">=</span>
+<span class="na">dhl</span> <span class="o">=</span>
+
+<span class="k">[static_params]</span>
+<span class="c1">; waveform parameters that will not change in MCMC</span>
+<span class="na">approximant</span> <span class="o">=</span> <span class="s">TaylorF2</span>
+<span class="na">f_lower</span> <span class="o">=</span> <span class="s">30</span>
+<span class="na">mass1</span> <span class="o">=</span> <span class="s">1.3757</span>
+<span class="na">mass2</span> <span class="o">=</span> <span class="s">1.3757</span>
+<span class="c1">#polarization = 0</span>
+
+<span class="k">[prior-tc]</span>
+<span class="c1">; coalescence time prior</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">uniform</span>
+<span class="na">min-tc</span> <span class="o">=</span> <span class="s">1187008882.4</span>
+<span class="na">max-tc</span> <span class="o">=</span> <span class="s">1187008882.5</span>
+
+<span class="k">[prior-distance]</span>
+<span class="c1">#; following gives a uniform in volume</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">uniform_radius</span>
+<span class="na">min-distance</span> <span class="o">=</span> <span class="s">10</span>
+<span class="na">max-distance</span> <span class="o">=</span> <span class="s">60</span>
+
+<span class="k">[prior-inclination]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">sin_angle</span>
+
+<span class="k">[prior-dh+dhl]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">fixed_samples</span>
+<span class="na">subname</span> <span class="o">=</span> <span class="s">mysky</span>
+<span class="na">sample-size</span> <span class="o">=</span> <span class="s">1e6</span>
+
+<span class="k">[mysky_sample-ra+dec]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">uniform_sky</span>
+
+<span class="k">[mysky_transform-dh+dhl]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">custom</span>
+<span class="na">inputs</span> <span class="o">=</span> <span class="s">ra, dec</span>
+<span class="na">dh</span> <span class="o">=</span> <span class="s">det_tc(&#39;H1&#39;, ra, dec, 1187008882.0, relative=1)</span>
+<span class="na">dhl</span> <span class="o">=</span> <span class="s">det_tc(&#39;L1&#39;, ra, dec, 1187008882.0, relative=1) - det_tc(&#39;H1&#39;, ra, dec, 1187008882.0, relative=1)</span>
+
+<span class="k">[waveform_transforms-ra+dec]</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">mysky</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="relative.html" class="btn btn-neutral float-right" title="Using the relative model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="gw150914.html" class="btn btn-neutral float-left" title="GW150914 example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015, 2016, 2017, Alexander Nitz, Ian Harry, Christopher M. Biwer, Duncan A.  Brown, Josh Willis, and Tito Dal Canton.
+      <span class="lastupdated">
+        Last updated on Feb 02, 2021.
+      </span>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
